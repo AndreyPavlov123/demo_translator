@@ -6,11 +6,22 @@ import androidx.fragment.app.viewModels
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.pavlov.demo_translator.api.data.MeaningShortRoot
 import com.pavlov.demo_translator.databinding.MainFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
+@ExperimentalPagingApi
+@ExperimentalCoroutinesApi
+@FlowPreview
 class MainFragment : Fragment() {
 
     companion object {
@@ -22,15 +33,33 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val binding = MainFragmentBinding.inflate(inflater, container, false)
-        viewModel.p.observe(viewLifecycleOwner) {
-            message.text = it
+
+        val pagingAdapter = SearchAdapter(object : DiffUtil.ItemCallback<MeaningShortRoot>() {
+            override fun areItemsTheSame(
+                oldItem: MeaningShortRoot,
+                newItem: MeaningShortRoot
+            ): Boolean = oldItem.id == newItem.id
+
+            override fun areContentsTheSame(
+                oldItem: MeaningShortRoot,
+                newItem: MeaningShortRoot
+            ): Boolean = oldItem.id == newItem.id
+        })
+
+        lifecycleScope.launch {
+            viewModel.searchPagingFlow.collectLatest { pagingData ->
+                pagingAdapter.submitData(pagingData)
+            }
         }
+        binding.searchRecyclerView.adapter = pagingAdapter
+        binding.searchRecyclerView.layoutManager = LinearLayoutManager(context)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         // TODO: Use the ViewModel
+        viewModel.search("работа")
     }
 
 }

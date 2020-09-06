@@ -2,10 +2,16 @@ package com.pavlov.demo_translator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.paging.ExperimentalPagingApi
 import com.pavlov.demo_translator.ui.main.MainFragment
 import com.pavlov.demo_translator.ui.meaning.MeaningFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@FlowPreview
+@ExperimentalCoroutinesApi
+@ExperimentalPagingApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
