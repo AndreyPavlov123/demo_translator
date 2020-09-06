@@ -1,4 +1,4 @@
-package com.pavlov.demo_translator.ui.main
+package com.pavlov.demo_translator.ui.search
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,4 +1,4 @@
-package com.pavlov.demo_translator.ui.main
+package com.pavlov.demo_translator.ui.search
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 @FlowPreview
 @ExperimentalCoroutinesApi
 @ExperimentalPagingApi
-class MainViewModel @ViewModelInject constructor(private val searchRepository: SearchRepository) : ViewModel() {
+class SearchViewModel @ViewModelInject constructor(private val searchRepository: SearchRepository) : ViewModel() {
 
     private val channel: ConflatedBroadcastChannel<PagingData<MeaningShortRoot>> = ConflatedBroadcastChannel()
 
