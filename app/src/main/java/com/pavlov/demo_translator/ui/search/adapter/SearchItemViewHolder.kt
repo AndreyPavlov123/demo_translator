@@ -2,42 +2,35 @@ package com.pavlov.demo_translator.ui.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.pavlov.demo_translator.R
 import com.pavlov.demo_translator.core.api.MeaningShortRoot
 import com.pavlov.demo_translator.ui.tools.getFilterImageId
 import kotlinx.android.synthetic.main.item_search.view.*
 
-class SearchItemViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+class SearchItemViewHolder(parent: ViewGroup, meaningClickListener: (MeaningShortRoot, Int) -> Unit) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)) {
 
-    fun bind(item: MeaningShortRoot, meaningClickListener: (MeaningShortRoot, Int) -> Unit) {
+    private val expandAdapter = ExpandMeaningAdapter(meaningClickListener)
+
+    init {
+        itemView.expandLayout.adapter = expandAdapter
+    }
+
+    fun bind(item: MeaningShortRoot) {
         itemView.text.text = item.text
         itemView.meaning.text = item.meanings?.take(10)?.map { it.translation?.text }?.joinToString()
         itemView.image.setImageResource(item.meanings!!.size.getFilterImageId())
+        expandAdapter.submitList(item.meanings!!.map { Pair(item, it) })
 
-        fun expand() {
-            itemView.expandButton.setImageResource(R.drawable.ic_arrow_up_drop_circle_outline)
-            itemView.expandLayout.removeAllViews()
-            for ((i, m) in item.meanings!!.withIndex()) {
-                val meaningViewHolder = MeaningItemViewHolder(itemView.expandLayout)
-                meaningViewHolder.bind(m, item) {
-                    meaningClickListener(item, i)
-                }
-                itemView.expandLayout.post {
-                    itemView.expandLayout.addView(meaningViewHolder.itemView)
-                }
-            }
-        }
-        fun collapse() {
-            itemView.expandButton.setImageResource(R.drawable.ic_arrow_down_drop_circle_outline)
-            itemView.expandLayout.removeAllViews()
-        }
         fun applyExpand() {
             if (item.isViewExpanded) {
-                expand()
+                itemView.expandButton.setImageResource(R.drawable.ic_arrow_up_drop_circle_outline)
+                itemView.expandLayout.isVisible = true
             } else {
-                collapse()
+                itemView.expandButton.setImageResource(R.drawable.ic_arrow_down_drop_circle_outline)
+                itemView.expandLayout.isVisible = false
             }
         }
 

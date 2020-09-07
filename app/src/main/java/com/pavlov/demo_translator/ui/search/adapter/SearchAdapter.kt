@@ -24,7 +24,7 @@ class SearchAdapter(private val onClickListener: (MeaningShortRoot, Int) -> Unit
         parent: ViewGroup,
         viewType: Int
     ): RecyclerView.ViewHolder = when (viewType) {
-        0 -> SearchItemViewHolder(parent)
+        0 -> SearchItemViewHolder(parent, onClickListener)
         else -> MeaningItemViewHolder(parent)
     }
 
@@ -34,10 +34,10 @@ class SearchAdapter(private val onClickListener: (MeaningShortRoot, Int) -> Unit
             //holder.bindPlaceholder()
         } else {
             if (holder is SearchItemViewHolder) {
-                holder.bind(item, onClickListener)
+                holder.bind(item)
             } else if (holder is MeaningItemViewHolder) {
                 val meaning = item.meanings!!.first()
-                holder.bind(meaning, item) { onClickListener(item, 0) }
+                holder.bind(meaning, item, onClickListener)
             }
         }
     }
