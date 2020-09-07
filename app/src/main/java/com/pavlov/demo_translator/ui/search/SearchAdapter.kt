@@ -42,7 +42,8 @@ class SearchAdapter :
 
     class MeaningShortRootViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: MeaningShortRoot) {
-            itemView.textView.text = item.text + ": " + item.meanings?.take(3)?.map { it.translation?.text }?.joinToString()
+            itemView.word.text = item.text
+            itemView.meaning.text = item.meanings?.take(3)?.map { it.translation?.text }?.joinToString()
         }
     }
 }
