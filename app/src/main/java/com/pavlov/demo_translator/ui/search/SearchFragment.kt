@@ -1,5 +1,8 @@
 package com.pavlov.demo_translator.ui.search
 
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
@@ -15,13 +18,12 @@ import com.pavlov.demo_translator.databinding.FragmentSearchBinding
 import com.pavlov.demo_translator.ui.meaning.MeaningFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 @AndroidEntryPoint
 @ExperimentalPagingApi
@@ -41,6 +43,16 @@ class SearchFragment : Fragment() {
         setHasOptionsMenu(true)
 
         pagingAdapter = SearchAdapter { data, _ ->
+
+//            val url = "https:" + data.meanings!!.first()!!.soundUrl
+//            GlobalScope.launch {
+//                    MediaPlayer().apply {
+//                        setDataSource(url)
+//                        prepare() // might take long! (for buffering, etc)
+//                        start()
+//                    }
+//            }
+
             MeaningFragment.newInstance(data).show(childFragmentManager, "MeaningFragment")
         }
     }
