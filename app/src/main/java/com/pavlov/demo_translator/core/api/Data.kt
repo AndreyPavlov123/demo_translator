@@ -18,7 +18,8 @@ data class MeaningShort (
 data class MeaningShortRoot (
     var id: Int? = null,
     var text: String? = null,
-    var meanings: List<MeaningShort>? = null
+    var meanings: List<MeaningShort>? = null,
+    var isViewExpanded: Boolean = false
 ) : Parcelable
 
 @Parcelize

@@ -34,7 +34,7 @@ class SearchAdapter(private val onClickListener: (MeaningShortRoot, Int) -> Unit
             //holder.bindPlaceholder()
         } else {
             if (holder is SearchItemViewHolder) {
-                holder.bind(item)
+                holder.bind(item, onClickListener)
             } else if (holder is MeaningItemViewHolder) {
                 val meaning = item.meanings!!.first()
                 holder.bind(meaning, item) { onClickListener(item, 0) }
