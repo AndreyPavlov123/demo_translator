@@ -10,10 +10,10 @@ class SearchPagingSource constructor(private val api: Api, private val query: St
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MeaningShortRoot> = try {
         val nextPageNumber = params.key ?: 1
         val searchResult = api.search(query, page = nextPageNumber, pageSize = params.loadSize)
-        LoadResult.Page(searchResult.body()!!, null, nextPageNumber + 1)
+        val data = searchResult.body()!!
+        LoadResult.Page(data, null, if (data.size < params.loadSize) null else nextPageNumber + 1)
     } catch (e: Exception) {
         LoadResult.Error(e)
     }
-
 }
 

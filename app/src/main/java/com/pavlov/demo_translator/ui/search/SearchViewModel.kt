@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.pavlov.demo_translator.api.data.MeaningShortRoot
 import com.pavlov.demo_translator.repository.SearchRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,7 +22,7 @@ class SearchViewModel @ViewModelInject constructor(private val searchRepository:
 
     private val channel: ConflatedBroadcastChannel<PagingData<MeaningShortRoot>> = ConflatedBroadcastChannel()
 
-    val searchPagingFlow = channel.asFlow()
+    val searchPagingFlow = channel.asFlow().cachedIn(viewModelScope)
 
     fun search(query: String) {
         viewModelScope.launch {

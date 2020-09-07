@@ -10,8 +10,20 @@ import com.pavlov.demo_translator.R
 import com.pavlov.demo_translator.api.data.MeaningShortRoot
 import kotlinx.android.synthetic.main.item_search.view.*
 
-class SearchAdapter(diffCallback: DiffUtil.ItemCallback<MeaningShortRoot>) :
-    PagingDataAdapter<MeaningShortRoot, SearchAdapter.MeaningShortRootViewHolder>(diffCallback) {
+class SearchAdapter :
+    PagingDataAdapter<MeaningShortRoot, SearchAdapter.MeaningShortRootViewHolder>(
+        object : DiffUtil.ItemCallback<MeaningShortRoot>() {
+            override fun areItemsTheSame(
+                oldItem: MeaningShortRoot,
+                newItem: MeaningShortRoot
+            ): Boolean = oldItem.id == newItem.id
+
+            override fun areContentsTheSame(
+                oldItem: MeaningShortRoot,
+                newItem: MeaningShortRoot
+            ): Boolean = oldItem.id == newItem.id
+        }) {
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -30,7 +42,7 @@ class SearchAdapter(diffCallback: DiffUtil.ItemCallback<MeaningShortRoot>) :
 
     class MeaningShortRootViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: MeaningShortRoot) {
-            itemView.textView.text = item.text
+            itemView.textView.text = item.text + ": " + item.meanings?.take(3)?.map { it.translation?.text }?.joinToString()
         }
     }
 }

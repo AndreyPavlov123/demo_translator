@@ -34,17 +34,7 @@ class SearchFragment : Fragment() {
                               savedInstanceState: Bundle?): View {
         val binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        val pagingAdapter = SearchAdapter(object : DiffUtil.ItemCallback<MeaningShortRoot>() {
-            override fun areItemsTheSame(
-                oldItem: MeaningShortRoot,
-                newItem: MeaningShortRoot
-            ): Boolean = oldItem.id == newItem.id
-
-            override fun areContentsTheSame(
-                oldItem: MeaningShortRoot,
-                newItem: MeaningShortRoot
-            ): Boolean = oldItem.id == newItem.id
-        })
+        val pagingAdapter = SearchAdapter()
 
         lifecycleScope.launch {
             viewModel.searchPagingFlow.collectLatest { pagingData ->
