@@ -77,6 +77,7 @@ class SearchFragment : Fragment() {
                 return true
             }
         })
+        searchItem.expandActionView()
         return super.onCreateOptionsMenu(menu, inflater)
     }
 }
