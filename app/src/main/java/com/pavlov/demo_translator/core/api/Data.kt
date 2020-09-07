@@ -1,4 +1,4 @@
-package com.pavlov.demo_translator.core.api.data
+package com.pavlov.demo_translator.core.api
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

@@ -7,7 +7,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.pavlov.demo_translator.R
-import com.pavlov.demo_translator.core.api.data.MeaningShortRoot
+import com.pavlov.demo_translator.core.api.MeaningShortRoot
 import kotlinx.android.synthetic.main.item_search.view.*
 
 class SearchAdapter :

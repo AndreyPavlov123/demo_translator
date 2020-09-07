@@ -2,7 +2,7 @@ package com.pavlov.demo_translator.core.repository
 
 import androidx.paging.*
 import com.pavlov.demo_translator.core.api.Api
-import com.pavlov.demo_translator.core.api.data.MeaningShortRoot
+import com.pavlov.demo_translator.core.api.MeaningShortRoot
 
 @ExperimentalPagingApi
 class SearchPagingSource constructor(private val api: Api, private val query: String)
