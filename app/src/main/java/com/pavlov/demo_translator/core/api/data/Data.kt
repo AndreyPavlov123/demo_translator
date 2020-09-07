@@ -1,4 +1,4 @@
-package com.pavlov.demo_translator.api.data
+package com.pavlov.demo_translator.core.api.data
 
 class Translation {
     var text: String? = null

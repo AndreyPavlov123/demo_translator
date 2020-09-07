@@ -1,8 +1,8 @@
-package com.pavlov.demo_translator.api
+package com.pavlov.demo_translator.core.api
 
 import com.google.gson.GsonBuilder
-import com.pavlov.demo_translator.api.data.MeaningFull
-import com.pavlov.demo_translator.api.data.MeaningShortRoot
+import com.pavlov.demo_translator.core.api.data.MeaningFull
+import com.pavlov.demo_translator.core.api.data.MeaningShortRoot
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

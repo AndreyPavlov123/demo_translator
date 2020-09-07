@@ -4,7 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pavlov.demo_translator.api.Api
+import com.pavlov.demo_translator.core.api.Api
 import kotlinx.coroutines.launch
 
 class MeaningViewModel @ViewModelInject constructor(api: Api) : ViewModel() {

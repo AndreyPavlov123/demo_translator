@@ -1,9 +1,9 @@
-package com.pavlov.demo_translator.repository
+package com.pavlov.demo_translator.core.repository
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.pavlov.demo_translator.api.Api
+import com.pavlov.demo_translator.core.api.Api
 import javax.inject.Inject
 
 
