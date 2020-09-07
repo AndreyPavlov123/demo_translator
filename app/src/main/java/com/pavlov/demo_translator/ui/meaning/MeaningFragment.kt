@@ -6,9 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.pavlov.demo_translator.R
 import com.pavlov.demo_translator.core.api.MeaningShortRoot
@@ -20,9 +17,10 @@ import kotlinx.android.synthetic.main.fragment_meaning.*
 class MeaningFragment : DialogFragment() {
 
     companion object {
-        fun newInstance(meaningShortRoot: MeaningShortRoot) = MeaningFragment().apply {
+        fun newInstance(meaningShortRoot: MeaningShortRoot, selectedMeaning: Int) = MeaningFragment().apply {
             arguments = Bundle().apply {
                 putParcelable("data", meaningShortRoot)
+                putInt("selectedMeaning", selectedMeaning)
             }
         }
     }

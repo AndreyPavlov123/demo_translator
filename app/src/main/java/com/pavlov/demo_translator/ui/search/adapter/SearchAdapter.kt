@@ -1,17 +1,13 @@
-package com.pavlov.demo_translator.ui.search
+package com.pavlov.demo_translator.ui.search.adapter
 
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.pavlov.demo_translator.R
 import com.pavlov.demo_translator.core.api.MeaningShortRoot
-import kotlinx.android.synthetic.main.item_search.view.*
 
 class SearchAdapter(private val onClickListener: (MeaningShortRoot, Int) -> Unit) :
-    PagingDataAdapter<MeaningShortRoot, SearchAdapter.MeaningShortRootViewHolder>(
+    PagingDataAdapter<MeaningShortRoot, RecyclerView.ViewHolder>(
         object : DiffUtil.ItemCallback<MeaningShortRoot>() {
             override fun areItemsTheSame(
                 oldItem: MeaningShortRoot,
@@ -27,24 +23,33 @@ class SearchAdapter(private val onClickListener: (MeaningShortRoot, Int) -> Unit
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MeaningShortRootViewHolder {
-        return MeaningShortRootViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false))
+    ): RecyclerView.ViewHolder = when (viewType) {
+        0 -> SearchItemViewHolder(parent)
+        else -> MeaningItemViewHolder(parent)
     }
 
-    override fun onBindViewHolder(holder: MeaningShortRootViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
         if(item == null) {
             //holder.bindPlaceholder()
         } else {
-            holder.bind(item) { onClickListener(item, position) }
+            if (holder is SearchItemViewHolder) {
+                holder.bind(item)
+            } else if (holder is MeaningItemViewHolder) {
+                val meaning = item.meanings!!.first()
+                holder.bind(meaning, item) { onClickListener(item, 0) }
+            }
         }
     }
 
-    class MeaningShortRootViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: MeaningShortRoot, onClickListener: () -> Unit) {
-            itemView.word.text = item.text
-            itemView.meaning.text = item.meanings?.take(3)?.map { it.translation?.text }?.joinToString()
-            itemView.setOnClickListener { onClickListener() }
+    override fun getItemViewType(position: Int): Int {
+        val item = getItem(position)
+        return when {
+            item?.meanings == null || item.meanings!!.size == 1 -> 1
+            else -> 0
         }
     }
+
 }
+
+

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.pavlov.demo_translator.ui.search
+package com.pavlov.demo_translator.ui.tools
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -1,4 +1,4 @@
-package com.pavlov.demo_translator.ui.search
+package com.pavlov.demo_translator.ui.tools
 
 import android.view.ViewGroup
 import androidx.paging.LoadState
