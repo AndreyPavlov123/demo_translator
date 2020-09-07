@@ -10,6 +10,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pavlov.demo_translator.R
 import com.pavlov.demo_translator.databinding.FragmentSearchBinding
+import com.pavlov.demo_translator.ui.meaning.MeaningFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -26,6 +27,7 @@ class SearchFragment : Fragment() {
         fun newInstance() = SearchFragment()
     }
 
+    private lateinit var searchItem: MenuItem
     private lateinit var searchView: SearchView
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var pagingAdapter: SearchAdapter
@@ -34,7 +36,9 @@ class SearchFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        pagingAdapter = SearchAdapter()
+        pagingAdapter = SearchAdapter { data, _ ->
+            MeaningFragment.newInstance(data).show(childFragmentManager, "MeaningFragment")
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +61,7 @@ class SearchFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_search, menu)
-        val searchItem: MenuItem = menu.findItem(R.id.action_search)
+        searchItem = menu.findItem(R.id.action_search)
         searchView = searchItem.actionView as SearchView
 
         searchView.setOnCloseListener {
@@ -76,7 +80,10 @@ class SearchFragment : Fragment() {
                 return true
             }
         })
+
+        searchView.isIconified = false
         searchItem.expandActionView()
+
         return super.onCreateOptionsMenu(menu, inflater)
     }
 }

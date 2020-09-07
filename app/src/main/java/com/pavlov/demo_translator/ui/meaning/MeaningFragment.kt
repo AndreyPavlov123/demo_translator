@@ -10,6 +10,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.pavlov.demo_translator.R
+import com.pavlov.demo_translator.core.api.MeaningShortRoot
 import com.pavlov.demo_translator.databinding.FragmentMeaningBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_meaning.*
@@ -18,7 +19,11 @@ import kotlinx.android.synthetic.main.fragment_meaning.*
 class MeaningFragment : DialogFragment() {
 
     companion object {
-        fun newInstance() = MeaningFragment()
+        fun newInstance(meaningShortRoot: MeaningShortRoot) = MeaningFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable("data", meaningShortRoot)
+            }
+        }
     }
 
     private val viewModel: MeaningViewModel by viewModels()
@@ -26,6 +31,7 @@ class MeaningFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.AppThemeDialogWhenLarge)
+        setHasOptionsMenu(false)
     }
 
     override fun onCreateView(
@@ -38,13 +44,20 @@ class MeaningFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout).title = "title"
         toolbar.setNavigationOnClickListener {
             dismiss()
         }
-        view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+        fab.setOnClickListener {
             Snackbar.make(it, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.setData(requireArguments().getParcelable("data")!!)
+        viewModel.title.observe(viewLifecycleOwner) {
+            toolbar_layout.title = it
         }
     }
 }

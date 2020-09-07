@@ -10,7 +10,7 @@ import com.pavlov.demo_translator.R
 import com.pavlov.demo_translator.core.api.MeaningShortRoot
 import kotlinx.android.synthetic.main.item_search.view.*
 
-class SearchAdapter :
+class SearchAdapter(private val onClickListener: (MeaningShortRoot, Int) -> Unit) :
     PagingDataAdapter<MeaningShortRoot, SearchAdapter.MeaningShortRootViewHolder>(
         object : DiffUtil.ItemCallback<MeaningShortRoot>() {
             override fun areItemsTheSame(
@@ -36,14 +36,15 @@ class SearchAdapter :
         if(item == null) {
             //holder.bindPlaceholder()
         } else {
-            holder.bind(item)
+            holder.bind(item) { onClickListener(item, position) }
         }
     }
 
     class MeaningShortRootViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: MeaningShortRoot) {
+        fun bind(item: MeaningShortRoot, onClickListener: () -> Unit) {
             itemView.word.text = item.text
             itemView.meaning.text = item.meanings?.take(3)?.map { it.translation?.text }?.joinToString()
+            itemView.setOnClickListener { onClickListener() }
         }
     }
 }
