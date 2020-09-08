@@ -10,7 +10,7 @@ import com.pavlov.demo_translator.core.api.data.Word
 import com.pavlov.demo_translator.ui.tools.getFilterImageId
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
-import kotlinx.android.synthetic.main.item_search.view.*
+import kotlinx.android.synthetic.main.item_word.view.*
 
 @Parcelize
 data class SelectedMeaning(
@@ -24,7 +24,7 @@ data class SelectedMeaning(
 typealias MeaningClickListener = (SelectedMeaning) -> Unit
 
 class WordViewHolder(parent: ViewGroup, meaningClickListener: MeaningClickListener) : RecyclerView.ViewHolder(
-    LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)) {
+    LayoutInflater.from(parent.context).inflate(R.layout.item_word, parent, false)) {
 
     private val expandAdapter = ExpandMeaningAdapter(meaningClickListener)
 
