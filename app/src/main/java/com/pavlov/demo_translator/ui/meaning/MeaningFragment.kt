@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.pavlov.demo_translator.R
 import com.pavlov.demo_translator.core.api.MeaningShortRoot
 import com.pavlov.demo_translator.databinding.FragmentMeaningBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.content_scrolling_meaning.*
 import kotlinx.android.synthetic.main.fragment_meaning.*
 
 @AndroidEntryPoint
@@ -19,7 +22,7 @@ class MeaningFragment : DialogFragment() {
     companion object {
         fun newInstance(meaningShortRoot: MeaningShortRoot, selectedMeaning: Int) = MeaningFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("data", meaningShortRoot)
+                putParcelable("meaningShortRoot", meaningShortRoot)
                 putInt("selectedMeaning", selectedMeaning)
             }
         }
@@ -44,19 +47,50 @@ class MeaningFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toolbar.setNavigationOnClickListener {
-            dismiss()
+            viewModel.closeButtonClicked()
         }
         fab.setOnClickListener {
-            Snackbar.make(it, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            viewModel.playButtonClicked()
         }
+
+        var isToolbarShown = false
+
+        // scroll change listener begins at Y = 0 when image is fully collapsed
+        scrollView.setOnScrollChangeListener(
+            NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
+
+                // User scrolled past image to height of toolbar and the title text is
+                // underneath the toolbar, so the toolbar should be shown.
+                val shouldShowToolbar = scrollY > toolbar.height
+
+                // The new state of the toolbar differs from the previous state; update
+                // appbar and toolbar attributes.
+                if (isToolbarShown != shouldShowToolbar) {
+                    isToolbarShown = shouldShowToolbar
+
+                    // Use shadow animator to add elevation if toolbar is shown
+                    //appbar.isActivated = shouldShowToolbar
+
+                    // Show the plant name if toolbar is shown
+                    toolbarLayout.isTitleEnabled = shouldShowToolbar
+                }
+            }
+        )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.setData(requireArguments().getParcelable("data")!!)
+        requireArguments().apply {
+            viewModel.init(getParcelable("meaningShortRoot")!!, getInt("selectedMeaning"))
+        }
         viewModel.title.observe(viewLifecycleOwner) {
-            toolbar_layout.title = it
+            toolbarLayout.title = it
+        }
+        viewModel.image.observe(viewLifecycleOwner) {
+            Glide.with(this).load(it).into(detailImage)
+        }
+        viewModel.closeEvent.observe(viewLifecycleOwner) {
+            dismiss()
         }
     }
 }

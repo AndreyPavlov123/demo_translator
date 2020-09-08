@@ -41,17 +41,7 @@ class SearchFragment : Fragment() {
         setHasOptionsMenu(true)
 
         pagingAdapter = SearchAdapter { data, selectedMeaning ->
-
-//            val url = "https:" + data.meanings!!.first()!!.soundUrl
-//            GlobalScope.launch {
-//                    MediaPlayer().apply {
-//                        setDataSource(url)
-//                        prepare() // might take long! (for buffering, etc)
-//                        start()
-//                    }
-//            }
-
-            MeaningFragment.newInstance(data, selectedMeaning).show(childFragmentManager, "MeaningFragment")
+            viewModel.meaningItemClicked(data, selectedMeaning)
         }
     }
 
@@ -68,6 +58,10 @@ class SearchFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        viewModel.openMeaningScreenEvent.observe(viewLifecycleOwner){
+            MeaningFragment.newInstance(it.first, it.second).show(childFragmentManager, "MeaningFragment")
+        }
 
         lifecycleScope.launch {
             viewModel.searchPagingFlow.collectLatest {
