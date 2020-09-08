@@ -4,16 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.pavlov.demo_translator.R
+import com.pavlov.demo_translator.core.api.data.NumericId
 import com.pavlov.demo_translator.databinding.FragmentMeaningBinding
+import com.pavlov.demo_translator.ui.model.SelectedMeaningModel
 import com.pavlov.demo_translator.ui.search.adapter.MeaningAdapter
-import com.pavlov.demo_translator.ui.search.adapter.SelectedMeaning
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.common_loading.*
 import kotlinx.android.synthetic.main.content_scrolling_meaning.*
 import kotlinx.android.synthetic.main.fragment_meaning.*
 
@@ -21,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_meaning.*
 class MeaningFragment : DialogFragment() {
 
     companion object {
-        fun newInstance(selectedMeaning: SelectedMeaning) = MeaningFragment().apply {
+        fun newInstance(selectedMeaning: SelectedMeaningModel) = MeaningFragment().apply {
             arguments = Bundle().apply {
                 putParcelable("selectedMeaning", selectedMeaning)
             }
@@ -54,6 +57,9 @@ class MeaningFragment : DialogFragment() {
         }
         fab.setOnClickListener {
             viewModel.playButtonClicked()
+        }
+        loadingLayoutButton.setOnClickListener {
+            viewModel.retryButtonClicked()
         }
 
         otherMeanings.adapter = otherMeaningsAdapter
@@ -98,10 +104,18 @@ class MeaningFragment : DialogFragment() {
             Snackbar.make(coordinatorLayout, it, Snackbar.LENGTH_LONG).show()
         }
         viewModel.openMeaningScreenEvent.observe(viewLifecycleOwner){
-            newInstance(it).show(childFragmentManager, "MeaningFragment" + it.meaning.id)
+            newInstance(it).show(childFragmentManager, "MeaningFragment$it")
         }
         viewModel.otherMeanings.observe(viewLifecycleOwner){
             otherMeaningsAdapter.submitList(it)
+        }
+        viewModel.loading.observe(viewLifecycleOwner){
+            loadingLayoutProgressBar.isVisible = it.isLoading
+            loadingLayoutText.isVisible = it.isMessageVisible
+            loadingLayoutText.text = it.message
+            loadingLayoutButton.isVisible = it.isRetryButtonVisible
+            loadingLayoutButton.text = it.retryButton
+            loadingLayout.isVisible = it.isLoadingLayoutVisible
         }
     }
 }

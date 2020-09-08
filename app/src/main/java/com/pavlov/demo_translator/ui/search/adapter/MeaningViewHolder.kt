@@ -6,9 +6,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.pavlov.demo_translator.R
-import com.pavlov.demo_translator.core.api.data.MeaningShort
-import com.pavlov.demo_translator.core.api.data.Word
-import com.pavlov.demo_translator.core.api.data.correctPreviewUrl
+import com.pavlov.demo_translator.ui.model.MeaningClickListener
+import com.pavlov.demo_translator.ui.model.MeaningModel
+import com.pavlov.demo_translator.ui.model.SelectedMeaningModel
 import kotlinx.android.synthetic.main.item_meaning.view.*
 
 class MeaningViewHolder(
@@ -21,14 +21,19 @@ class MeaningViewHolder(
         itemView.meaning.isVisible = !showOnlyMeaning
     }
 
-    fun bind(item: MeaningShort, root: Word, meaningClickListener: MeaningClickListener) {
+    fun bind(item: MeaningModel, meaningClickListener: MeaningClickListener) {
         if (showOnlyMeaning) {
-            itemView.text.text = item.translation?.text
+            itemView.text.text = item.translation
         } else {
-            itemView.text.text = root.text
-            itemView.meaning.text = item.translation?.text
+            itemView.text.text = item.word
+            itemView.meaning.text = item.translation
         }
-        Glide.with(itemView).load(item.correctPreviewUrl).into(itemView.image)
-        itemView.setOnClickListener { meaningClickListener(SelectedMeaning(root, root.meanings!!.indexOf(item))) }
+        if (item.previewUrl.isNullOrBlank()) {
+            itemView.image.isVisible = false
+        } else {
+            itemView.image.isVisible = true
+            Glide.with(itemView).load(item.previewUrl).into(itemView.image)
+        }
+        itemView.setOnClickListener { meaningClickListener(SelectedMeaningModel(item.id, item)) }
     }
 }

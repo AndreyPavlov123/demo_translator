@@ -1,5 +1,7 @@
 package com.pavlov.demo_translator.core.api.data
 
+typealias NumericId = Long
+
 fun String.correctUrl() = "https:$this"
 
 fun String.decodePartOfSpeech() = when (this) {

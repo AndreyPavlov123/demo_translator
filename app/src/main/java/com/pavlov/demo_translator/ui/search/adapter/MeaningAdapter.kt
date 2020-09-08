@@ -3,21 +3,21 @@ package com.pavlov.demo_translator.ui.search.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.pavlov.demo_translator.core.api.data.MeaningShort
-import com.pavlov.demo_translator.core.api.data.Word
+import com.pavlov.demo_translator.ui.model.MeaningClickListener
+import com.pavlov.demo_translator.ui.model.MeaningModel
 
 class MeaningAdapter(private val meaningClickListener: MeaningClickListener)
-    : ListAdapter<Pair<Word, MeaningShort>, MeaningViewHolder>(
-    object : DiffUtil.ItemCallback<Pair<Word, MeaningShort>>() {
+    : ListAdapter<MeaningModel, MeaningViewHolder>(
+    object : DiffUtil.ItemCallback<MeaningModel>() {
         override fun areItemsTheSame(
-            oldItem: Pair<Word, MeaningShort>,
-            newItem: Pair<Word, MeaningShort>
-        ): Boolean = oldItem.second.id == newItem.second.id
+            oldItem: MeaningModel,
+            newItem: MeaningModel
+        ): Boolean = oldItem.id == newItem.id
 
         override fun areContentsTheSame(
-            oldItem: Pair<Word, MeaningShort>,
-            newItem: Pair<Word, MeaningShort>
-        ): Boolean = oldItem.second.id == newItem.second.id
+            oldItem: MeaningModel,
+            newItem: MeaningModel
+        ): Boolean = oldItem.id == newItem.id
     }
 ) {
 
@@ -25,7 +25,7 @@ class MeaningAdapter(private val meaningClickListener: MeaningClickListener)
         MeaningViewHolder(parent, showOnlyMeaning = true)
 
     override fun onBindViewHolder(holder: MeaningViewHolder, position: Int) {
-        val (a, b) = getItem(position)
-        holder.bind(b, a, meaningClickListener)
+        val item = getItem(position)
+        holder.bind(item, meaningClickListener)
     }
 }

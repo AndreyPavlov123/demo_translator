@@ -1,8 +1,8 @@
 package com.pavlov.demo_translator.core.api.data
 
 data class MeaningFull (
-    var id: String? = null,
-    var wordId: Int? = null,
+    var id: String,
+    var wordId: NumericId,
     var difficultyLevel: Int? = null,
     var partOfSpeechCode: String? = null,
     var prefix: String? = null,
@@ -37,7 +37,7 @@ data class Definition (
 val Definition.correctSoundUrl get() = this.soundUrl?.correctUrl()
 
 data class MeaningsWithSimilarTranslation (
-    var meaningId: Int? = null,
+    var meaningId: NumericId,
     var frequencyPercent: String? = null,
     var partOfSpeechAbbreviation: String? = null,
     var translation: Translation? = null

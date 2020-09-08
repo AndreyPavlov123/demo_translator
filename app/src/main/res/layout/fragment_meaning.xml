@@ -56,4 +56,7 @@
         app:tint="@android:color/white"
         app:srcCompat="@drawable/ic_volume_up" />
 
+    <include layout="@layout/common_loading"
+        android:visibility="gone"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -5,6 +5,8 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.pavlov.demo_translator.core.api.data.Word
+import com.pavlov.demo_translator.ui.model.MeaningClickListener
+import com.pavlov.demo_translator.ui.model.toModel
 
 class WordAdapter(private val meaningClickListener: MeaningClickListener) :
     PagingDataAdapter<Word, RecyclerView.ViewHolder>(
@@ -37,7 +39,7 @@ class WordAdapter(private val meaningClickListener: MeaningClickListener) :
                 holder.bind(item)
             } else if (holder is MeaningViewHolder) {
                 val meaning = item.meanings!!.first()
-                holder.bind(meaning, item, meaningClickListener)
+                holder.bind(meaning.toModel(item.text ?: ""), meaningClickListener)
             }
         }
     }

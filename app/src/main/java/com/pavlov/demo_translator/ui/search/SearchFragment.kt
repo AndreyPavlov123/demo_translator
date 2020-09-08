@@ -40,8 +40,8 @@ class SearchFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        pagingAdapter = WordAdapter { selectedMeaning ->
-            viewModel.meaningItemClicked(selectedMeaning)
+        pagingAdapter = WordAdapter {
+            viewModel.meaningItemClicked(it)
         }
     }
 
@@ -60,7 +60,7 @@ class SearchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.openMeaningScreenEvent.observe(viewLifecycleOwner){
-            MeaningFragment.newInstance(it).show(childFragmentManager, "MeaningFragment" + it.meaning.id)
+            MeaningFragment.newInstance(it).show(childFragmentManager, "MeaningFragment$it")
         }
 
         lifecycleScope.launch {
