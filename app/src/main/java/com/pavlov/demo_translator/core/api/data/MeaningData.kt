@@ -21,6 +21,7 @@ data class MeaningFull (
 )
 
 val MeaningFull.correctSoundUrl get() = this.soundUrl?.correctUrl()
+val MeaningFull.partOfSpeech get() = this.partOfSpeechCode?.decodePartOfSpeech()
 
 data class Image (
     var url: String? = null

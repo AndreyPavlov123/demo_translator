@@ -22,8 +22,6 @@ class SearchViewModel @ViewModelInject constructor(private val searchService: Se
     val openMeaningScreenEvent = SingleLiveEvent<SelectedMeaning>()
 
     fun search(query: String) {
-        if (query.isBlank())
-            return
         viewModelScope.launch {
             searchService.search(query.trim())
         }

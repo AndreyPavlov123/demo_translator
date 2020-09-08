@@ -8,6 +8,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.pavlov.demo_translator.R
 import com.pavlov.demo_translator.databinding.FragmentMeaningBinding
 import com.pavlov.demo_translator.ui.search.adapter.SelectedMeaning
@@ -78,9 +79,6 @@ class MeaningFragment : DialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        requireArguments().apply {
-            viewModel.init(getParcelable("selectedMeaning")!!)
-        }
         viewModel.title.observe(viewLifecycleOwner) {
             toolbarLayout.title = it
         }
@@ -89,6 +87,9 @@ class MeaningFragment : DialogFragment() {
         }
         viewModel.closeEvent.observe(viewLifecycleOwner) {
             dismiss()
+        }
+        viewModel.snackbarEvent.observe(viewLifecycleOwner) {
+            Snackbar.make(coordinatorLayout, it, Snackbar.LENGTH_LONG).show()
         }
     }
 }

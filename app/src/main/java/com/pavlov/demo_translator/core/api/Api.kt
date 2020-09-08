@@ -20,12 +20,12 @@ interface Api {
         @Query("search") search: String,
         @Query("page") page: Int? = null,
         @Query("pageSize") pageSize: Int? = null,
-    ): Response<List<Word>>
+    ): List<Word>
 
     @GET("/api/public/v1/meanings")
     suspend fun meanings(
         @Query("ids") vararg ids: Int,
-    ): Response<List<MeaningFull>>
+    ): List<MeaningFull>
 }
 
 @Module

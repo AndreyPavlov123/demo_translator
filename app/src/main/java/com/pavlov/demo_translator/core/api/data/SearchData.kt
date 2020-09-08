@@ -25,6 +25,7 @@ data class MeaningShort (
 val MeaningShort.correctPreviewUrl get() = this.previewUrl?.correctUrl()
 val MeaningShort.correctImageUrl get() = this.imageUrl?.correctUrl()
 val MeaningShort.correctSoundUrl get() = this.soundUrl?.correctUrl()
+val MeaningShort.partOfSpeech get() = this.partOfSpeechCode?.decodePartOfSpeech()
 
 @Parcelize
 data class Translation (

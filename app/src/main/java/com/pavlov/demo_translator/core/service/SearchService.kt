@@ -21,6 +21,7 @@ class SearchService @Inject constructor(private val searchRepository: SearchRepo
         .asFlow()
         .debounce(1000)
         .distinctUntilChanged()
+        .filter { it.isNotBlank() }
         .flatMapLatest { searchRepository.search(it).flow }
 
     suspend fun search(query: String) = channel.send(query)
