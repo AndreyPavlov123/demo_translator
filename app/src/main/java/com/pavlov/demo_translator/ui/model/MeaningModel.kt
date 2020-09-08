@@ -4,14 +4,6 @@ import android.os.Parcelable
 import com.pavlov.demo_translator.core.api.data.*
 import kotlinx.android.parcel.Parcelize
 
-typealias MeaningClickListener = (selectedMeaning: SelectedMeaningModel) -> Unit
-
-@Parcelize
-data class SelectedMeaningModel(
-    val selectedMeaningId: NumericId,
-    val initialMeaningData: MeaningModel?
-) : Parcelable
-
 @Parcelize
 data class MeaningModel (
     var id: NumericId,

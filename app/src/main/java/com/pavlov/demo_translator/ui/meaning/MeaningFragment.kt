@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.pavlov.demo_translator.R
-import com.pavlov.demo_translator.core.api.data.NumericId
 import com.pavlov.demo_translator.databinding.FragmentMeaningBinding
+import com.pavlov.demo_translator.ui.meaning.adapter.ExampleAdapter
 import com.pavlov.demo_translator.ui.model.SelectedMeaningModel
 import com.pavlov.demo_translator.ui.search.adapter.MeaningAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +26,7 @@ class MeaningFragment : DialogFragment() {
     companion object {
         fun newInstance(selectedMeaning: SelectedMeaningModel) = MeaningFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("selectedMeaning", selectedMeaning)
+                putParcelable(MeaningViewModel.SELECTED_MEANING_TAG, selectedMeaning)
             }
         }
     }
@@ -34,6 +34,9 @@ class MeaningFragment : DialogFragment() {
     private val viewModel: MeaningViewModel by viewModels()
     private val otherMeaningsAdapter = MeaningAdapter {
         viewModel.otherMeaningClicked(it)
+    }
+    private val exampleAdapter = ExampleAdapter {
+        viewModel.playExampleClicked(it)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +66,7 @@ class MeaningFragment : DialogFragment() {
         }
 
         otherMeanings.adapter = otherMeaningsAdapter
+        examples.adapter = exampleAdapter
 
         var isToolbarShown = false
 
@@ -94,6 +98,21 @@ class MeaningFragment : DialogFragment() {
         viewModel.title.observe(viewLifecycleOwner) {
             toolbarLayout.title = it
         }
+        viewModel.word.observe(viewLifecycleOwner) {
+            word.text = it
+        }
+        viewModel.transcription.observe(viewLifecycleOwner) {
+            transcription.text = it
+        }
+        viewModel.translation.observe(viewLifecycleOwner) {
+            translation.text = it
+        }
+        viewModel.definition.observe(viewLifecycleOwner) {
+            definition.text = it
+        }
+        viewModel.definitionVisible.observe(viewLifecycleOwner) {
+            definition.isVisible = it
+        }
         viewModel.image.observe(viewLifecycleOwner) {
             Glide.with(this).load(it).into(detailImage)
         }
@@ -108,6 +127,12 @@ class MeaningFragment : DialogFragment() {
         }
         viewModel.otherMeanings.observe(viewLifecycleOwner){
             otherMeaningsAdapter.submitList(it)
+        }
+        viewModel.otherMeaningTitleVisible.observe(viewLifecycleOwner) {
+            otherTranslationsLabel.isVisible = it
+        }
+        viewModel.examples.observe(viewLifecycleOwner){
+            exampleAdapter.submitList(it)
         }
         viewModel.loading.observe(viewLifecycleOwner){
             loadingLayoutProgressBar.isVisible = it.isLoading

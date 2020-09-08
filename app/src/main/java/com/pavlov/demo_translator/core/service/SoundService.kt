@@ -14,9 +14,11 @@ interface SoundService {
 }
 
 class SoundServiceImpl @Inject constructor() : SoundService {
+
+    @Suppress("BlockingMethodInNonBlockingContext")
     override fun playSound(soundUrl: String) {
         GlobalScope.launch {
-            MediaPlayer().apply {
+            MediaPlayer().apply  {
                 setDataSource(soundUrl)
                 prepare() // might take long! (for buffering, etc)
                 start()

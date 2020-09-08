@@ -23,7 +23,8 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text"
-            app:srcCompat="@drawable/ic_search" />
+            app:srcCompat="@drawable/ic_search"
+            android:contentDescription="@string/image" />
 
         <TextView
             android:id="@+id/text"
@@ -32,7 +33,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:gravity="center_vertical"
-            android:text="TextView"
+            tools:text="TextView"
             android:maxLines="1"
             android:ellipsize="end"
             app:layout_constraintBottom_toTopOf="@+id/meaning"
@@ -47,7 +48,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:gravity="center_vertical"
-            android:text="TextView"
+            tools:text="TextView"
             android:textColor="@color/colorAccent"
             android:textSize="12sp"
             android:maxLines="1"
@@ -65,7 +66,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/meaning"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintTop_toTopOf="@+id/text"
-            app:srcCompat="@drawable/ic_arrow_down_drop_circle_outline" />
+            app:srcCompat="@drawable/ic_arrow_down_drop_circle_outline"
+            android:contentDescription="@string/expand_collapse_button" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/expandLayout"

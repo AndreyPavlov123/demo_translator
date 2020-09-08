@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.cachedIn
-import com.pavlov.demo_translator.core.api.data.NumericId
 import com.pavlov.demo_translator.core.service.SearchService
 import com.pavlov.demo_translator.ui.model.SelectedMeaningModel
 import com.pavlov.demo_translator.ui.tools.SingleLiveEvent
