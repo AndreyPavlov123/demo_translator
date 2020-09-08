@@ -60,7 +60,7 @@ class SearchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.openMeaningScreenEvent.observe(viewLifecycleOwner){
-            MeaningFragment.newInstance(it).show(childFragmentManager, "MeaningFragment")
+            MeaningFragment.newInstance(it).show(childFragmentManager, "MeaningFragment" + it.meaning.id)
         }
 
         lifecycleScope.launch {

@@ -26,7 +26,7 @@ typealias MeaningClickListener = (SelectedMeaning) -> Unit
 class WordViewHolder(parent: ViewGroup, meaningClickListener: MeaningClickListener) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_word, parent, false)) {
 
-    private val expandAdapter = ExpandMeaningAdapter(meaningClickListener)
+    private val expandAdapter = MeaningAdapter(meaningClickListener)
 
     init {
         itemView.expandLayout.adapter = expandAdapter

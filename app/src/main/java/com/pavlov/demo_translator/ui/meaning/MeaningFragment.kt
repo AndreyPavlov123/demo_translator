@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.pavlov.demo_translator.R
 import com.pavlov.demo_translator.databinding.FragmentMeaningBinding
+import com.pavlov.demo_translator.ui.search.adapter.MeaningAdapter
 import com.pavlov.demo_translator.ui.search.adapter.SelectedMeaning
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.content_scrolling_meaning.*
@@ -28,6 +29,9 @@ class MeaningFragment : DialogFragment() {
     }
 
     private val viewModel: MeaningViewModel by viewModels()
+    private val otherMeaningsAdapter = MeaningAdapter {
+        viewModel.otherMeaningClicked(it)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +55,8 @@ class MeaningFragment : DialogFragment() {
         fab.setOnClickListener {
             viewModel.playButtonClicked()
         }
+
+        otherMeanings.adapter = otherMeaningsAdapter
 
         var isToolbarShown = false
 
@@ -90,6 +96,12 @@ class MeaningFragment : DialogFragment() {
         }
         viewModel.snackbarEvent.observe(viewLifecycleOwner) {
             Snackbar.make(coordinatorLayout, it, Snackbar.LENGTH_LONG).show()
+        }
+        viewModel.openMeaningScreenEvent.observe(viewLifecycleOwner){
+            newInstance(it).show(childFragmentManager, "MeaningFragment" + it.meaning.id)
+        }
+        viewModel.otherMeanings.observe(viewLifecycleOwner){
+            otherMeaningsAdapter.submitList(it)
         }
     }
 }

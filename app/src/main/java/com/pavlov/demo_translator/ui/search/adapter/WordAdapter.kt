@@ -25,7 +25,7 @@ class WordAdapter(private val meaningClickListener: MeaningClickListener) :
         viewType: Int
     ): RecyclerView.ViewHolder = when (viewType) {
         0 -> WordViewHolder(parent, meaningClickListener)
-        else -> MeaningItemViewHolder(parent)
+        else -> MeaningViewHolder(parent, showOnlyMeaning = false)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -35,7 +35,7 @@ class WordAdapter(private val meaningClickListener: MeaningClickListener) :
         } else {
             if (holder is WordViewHolder) {
                 holder.bind(item)
-            } else if (holder is MeaningItemViewHolder) {
+            } else if (holder is MeaningViewHolder) {
                 val meaning = item.meanings!!.first()
                 holder.bind(meaning, item, meaningClickListener)
             }

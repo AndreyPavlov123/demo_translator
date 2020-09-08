@@ -21,8 +21,12 @@ class MeaningViewModel @ViewModelInject constructor(
 
     val title = MutableLiveData(selectedMeaning.word.text)
     val image = MutableLiveData(selectedMeaning.meaning.correctImageUrl)
+    val otherMeanings = MutableLiveData(selectedMeaning.word.meanings!!
+        .filter { it.id != selectedMeaning.meaning.id }
+        .map { Pair(selectedMeaning.word, it) })
     val closeEvent = SingleLiveEvent<Any?>()
     val snackbarEvent = SingleLiveEvent<String>()
+    val openMeaningScreenEvent = SingleLiveEvent<SelectedMeaning>()
 
     init {
         viewModelScope.launch {
@@ -40,4 +44,7 @@ class MeaningViewModel @ViewModelInject constructor(
 
     fun playButtonClicked() = selectedMeaning.meaning.correctSoundUrl?.apply { soundService.playSound(this) }
     fun closeButtonClicked() = closeEvent.call()
+    fun otherMeaningClicked(selectedMeaning: SelectedMeaning) {
+        openMeaningScreenEvent.value = selectedMeaning
+    }
 }
