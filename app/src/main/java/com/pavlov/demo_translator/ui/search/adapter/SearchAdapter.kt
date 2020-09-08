@@ -4,19 +4,19 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.pavlov.demo_translator.core.api.MeaningShortRoot
+import com.pavlov.demo_translator.core.api.data.Word
 
-class SearchAdapter(private val onClickListener: (MeaningShortRoot, Int) -> Unit) :
-    PagingDataAdapter<MeaningShortRoot, RecyclerView.ViewHolder>(
-        object : DiffUtil.ItemCallback<MeaningShortRoot>() {
+class SearchAdapter(private val onClickListener: (Word, Int) -> Unit) :
+    PagingDataAdapter<Word, RecyclerView.ViewHolder>(
+        object : DiffUtil.ItemCallback<Word>() {
             override fun areItemsTheSame(
-                oldItem: MeaningShortRoot,
-                newItem: MeaningShortRoot
+                oldItem: Word,
+                newItem: Word
             ): Boolean = oldItem.id == newItem.id
 
             override fun areContentsTheSame(
-                oldItem: MeaningShortRoot,
-                newItem: MeaningShortRoot
+                oldItem: Word,
+                newItem: Word
             ): Boolean = oldItem.id == newItem.id
         }) {
 

@@ -8,9 +8,8 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import com.pavlov.demo_translator.R
-import com.pavlov.demo_translator.core.api.MeaningShortRoot
+import com.pavlov.demo_translator.core.api.data.Word
 import com.pavlov.demo_translator.databinding.FragmentMeaningBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.content_scrolling_meaning.*
@@ -20,9 +19,9 @@ import kotlinx.android.synthetic.main.fragment_meaning.*
 class MeaningFragment : DialogFragment() {
 
     companion object {
-        fun newInstance(meaningShortRoot: MeaningShortRoot, selectedMeaning: Int) = MeaningFragment().apply {
+        fun newInstance(word: Word, selectedMeaning: Int) = MeaningFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("meaningShortRoot", meaningShortRoot)
+                putParcelable("meaningShortRoot", word)
                 putInt("selectedMeaning", selectedMeaning)
             }
         }

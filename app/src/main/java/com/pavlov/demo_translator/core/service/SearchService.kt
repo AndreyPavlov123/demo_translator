@@ -2,7 +2,7 @@ package com.pavlov.demo_translator.core.service
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
-import com.pavlov.demo_translator.core.api.MeaningShortRoot
+import com.pavlov.demo_translator.core.api.data.Word
 import com.pavlov.demo_translator.core.repository.SearchRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -17,7 +17,7 @@ class SearchService @Inject constructor(private val searchRepository: SearchRepo
 
     private val channel: ConflatedBroadcastChannel<String> = ConflatedBroadcastChannel()
 
-    val searchResultFlow: Flow<PagingData<MeaningShortRoot>> = channel
+    val searchResultFlow: Flow<PagingData<Word>> = channel
         .asFlow()
         .debounce(1000)
         .distinctUntilChanged()

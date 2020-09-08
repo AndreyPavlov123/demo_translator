@@ -1,6 +1,8 @@
 package com.pavlov.demo_translator.core.api
 
 import com.google.gson.GsonBuilder
+import com.pavlov.demo_translator.core.api.data.MeaningFull
+import com.pavlov.demo_translator.core.api.data.Word
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +20,7 @@ interface Api {
         @Query("search") search: String,
         @Query("page") page: Int? = null,
         @Query("pageSize") pageSize: Int? = null,
-    ): Response<List<MeaningShortRoot>>
+    ): Response<List<Word>>
 
     @GET("/api/public/v1/meanings")
     suspend fun meanings(

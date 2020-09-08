@@ -3,19 +3,19 @@ package com.pavlov.demo_translator.ui.search.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.pavlov.demo_translator.core.api.MeaningShort
-import com.pavlov.demo_translator.core.api.MeaningShortRoot
+import com.pavlov.demo_translator.core.api.data.MeaningShort
+import com.pavlov.demo_translator.core.api.data.Word
 
-class ExpandMeaningAdapter(private val clickListener: (MeaningShortRoot, Int) -> Unit) : ListAdapter<Pair<MeaningShortRoot, MeaningShort>, MeaningItemViewHolder>(
-    object : DiffUtil.ItemCallback<Pair<MeaningShortRoot, MeaningShort>>() {
+class ExpandMeaningAdapter(private val clickListener: (Word, Int) -> Unit) : ListAdapter<Pair<Word, MeaningShort>, MeaningItemViewHolder>(
+    object : DiffUtil.ItemCallback<Pair<Word, MeaningShort>>() {
         override fun areItemsTheSame(
-            oldItem: Pair<MeaningShortRoot, MeaningShort>,
-            newItem: Pair<MeaningShortRoot, MeaningShort>
+            oldItem: Pair<Word, MeaningShort>,
+            newItem: Pair<Word, MeaningShort>
         ): Boolean = oldItem.second.id == newItem.second.id
 
         override fun areContentsTheSame(
-            oldItem: Pair<MeaningShortRoot, MeaningShort>,
-            newItem: Pair<MeaningShortRoot, MeaningShort>
+            oldItem: Pair<Word, MeaningShort>,
+            newItem: Pair<Word, MeaningShort>
         ): Boolean = oldItem.second.id == newItem.second.id
     }
 ) {
