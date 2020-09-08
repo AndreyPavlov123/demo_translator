@@ -13,10 +13,10 @@ import kotlinx.android.synthetic.main.item_meaning.view.*
 class MeaningItemViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_meaning, parent, false)
 ) {
-    fun bind(item: MeaningShort, root: Word, onClickListener: (Word, Int) -> Unit) {
+    fun bind(item: MeaningShort, root: Word, meaningClickListener: MeaningClickListener) {
         itemView.text.text = root.text
         itemView.meaning.text = item.translation?.text
         Glide.with(itemView).load(item.correctPreviewUrl).into(itemView.image)
-        itemView.setOnClickListener { onClickListener(root, root.meanings!!.indexOf(item)) }
+        itemView.setOnClickListener { meaningClickListener(SelectedMeaning(root, root.meanings!!.indexOf(item))) }
     }
 }

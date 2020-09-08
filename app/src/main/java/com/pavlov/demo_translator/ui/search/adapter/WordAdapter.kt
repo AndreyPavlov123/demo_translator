@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.pavlov.demo_translator.core.api.data.Word
 
-class SearchAdapter(private val onClickListener: (Word, Int) -> Unit) :
+class WordAdapter(private val meaningClickListener: MeaningClickListener) :
     PagingDataAdapter<Word, RecyclerView.ViewHolder>(
         object : DiffUtil.ItemCallback<Word>() {
             override fun areItemsTheSame(
@@ -24,7 +24,7 @@ class SearchAdapter(private val onClickListener: (Word, Int) -> Unit) :
         parent: ViewGroup,
         viewType: Int
     ): RecyclerView.ViewHolder = when (viewType) {
-        0 -> SearchItemViewHolder(parent, onClickListener)
+        0 -> WordViewHolder(parent, meaningClickListener)
         else -> MeaningItemViewHolder(parent)
     }
 
@@ -33,11 +33,11 @@ class SearchAdapter(private val onClickListener: (Word, Int) -> Unit) :
         if(item == null) {
             //holder.bindPlaceholder()
         } else {
-            if (holder is SearchItemViewHolder) {
+            if (holder is WordViewHolder) {
                 holder.bind(item)
             } else if (holder is MeaningItemViewHolder) {
                 val meaning = item.meanings!!.first()
-                holder.bind(meaning, item, onClickListener)
+                holder.bind(meaning, item, meaningClickListener)
             }
         }
     }

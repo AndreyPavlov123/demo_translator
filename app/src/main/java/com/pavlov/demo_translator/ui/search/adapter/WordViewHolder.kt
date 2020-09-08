@@ -1,5 +1,6 @@
 package com.pavlov.demo_translator.ui.search.adapter
 
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -7,9 +8,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pavlov.demo_translator.R
 import com.pavlov.demo_translator.core.api.data.Word
 import com.pavlov.demo_translator.ui.tools.getFilterImageId
+import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.item_search.view.*
 
-class SearchItemViewHolder(parent: ViewGroup, meaningClickListener: (Word, Int) -> Unit) : RecyclerView.ViewHolder(
+@Parcelize
+data class SelectedMeaning(
+    val word: Word,
+    val selectedMeaningIndex: Int
+) : Parcelable {
+    @IgnoredOnParcel
+    val meaning by lazy { word.meanings!![selectedMeaningIndex] }
+}
+
+typealias MeaningClickListener = (SelectedMeaning) -> Unit
+
+class WordViewHolder(parent: ViewGroup, meaningClickListener: MeaningClickListener) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)) {
 
     private val expandAdapter = ExpandMeaningAdapter(meaningClickListener)

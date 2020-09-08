@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.ListAdapter
 import com.pavlov.demo_translator.core.api.data.MeaningShort
 import com.pavlov.demo_translator.core.api.data.Word
 
-class ExpandMeaningAdapter(private val clickListener: (Word, Int) -> Unit) : ListAdapter<Pair<Word, MeaningShort>, MeaningItemViewHolder>(
+class ExpandMeaningAdapter(private val meaningClickListener: MeaningClickListener)
+    : ListAdapter<Pair<Word, MeaningShort>, MeaningItemViewHolder>(
     object : DiffUtil.ItemCallback<Pair<Word, MeaningShort>>() {
         override fun areItemsTheSame(
             oldItem: Pair<Word, MeaningShort>,
@@ -25,6 +26,6 @@ class ExpandMeaningAdapter(private val clickListener: (Word, Int) -> Unit) : Lis
 
     override fun onBindViewHolder(holder: MeaningItemViewHolder, position: Int) {
         val (a, b) = getItem(position)
-        holder.bind(b, a, clickListener)
+        holder.bind(b, a, meaningClickListener)
     }
 }

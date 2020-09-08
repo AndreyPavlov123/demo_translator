@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.pavlov.demo_translator.R
 import com.pavlov.demo_translator.databinding.FragmentSearchBinding
 import com.pavlov.demo_translator.ui.meaning.MeaningFragment
-import com.pavlov.demo_translator.ui.search.adapter.SearchAdapter
+import com.pavlov.demo_translator.ui.search.adapter.WordAdapter
 import com.pavlov.demo_translator.ui.tools.NetworkLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -34,14 +34,14 @@ class SearchFragment : Fragment() {
     }
 
     private val viewModel: SearchViewModel by viewModels()
-    private lateinit var pagingAdapter: SearchAdapter
+    private lateinit var pagingAdapter: WordAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        pagingAdapter = SearchAdapter { data, selectedMeaning ->
-            viewModel.meaningItemClicked(data, selectedMeaning)
+        pagingAdapter = WordAdapter { selectedMeaning ->
+            viewModel.meaningItemClicked(selectedMeaning)
         }
     }
 
@@ -60,7 +60,7 @@ class SearchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.openMeaningScreenEvent.observe(viewLifecycleOwner){
-            MeaningFragment.newInstance(it.first, it.second).show(childFragmentManager, "MeaningFragment")
+            MeaningFragment.newInstance(it).show(childFragmentManager, "MeaningFragment")
         }
 
         lifecycleScope.launch {

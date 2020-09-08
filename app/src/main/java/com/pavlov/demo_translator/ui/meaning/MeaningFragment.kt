@@ -9,8 +9,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.pavlov.demo_translator.R
-import com.pavlov.demo_translator.core.api.data.Word
 import com.pavlov.demo_translator.databinding.FragmentMeaningBinding
+import com.pavlov.demo_translator.ui.search.adapter.SelectedMeaning
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.content_scrolling_meaning.*
 import kotlinx.android.synthetic.main.fragment_meaning.*
@@ -19,10 +19,9 @@ import kotlinx.android.synthetic.main.fragment_meaning.*
 class MeaningFragment : DialogFragment() {
 
     companion object {
-        fun newInstance(word: Word, selectedMeaning: Int) = MeaningFragment().apply {
+        fun newInstance(selectedMeaning: SelectedMeaning) = MeaningFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("meaningShortRoot", word)
-                putInt("selectedMeaning", selectedMeaning)
+                putParcelable("selectedMeaning", selectedMeaning)
             }
         }
     }
@@ -80,7 +79,7 @@ class MeaningFragment : DialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         requireArguments().apply {
-            viewModel.init(getParcelable("meaningShortRoot")!!, getInt("selectedMeaning"))
+            viewModel.init(getParcelable("selectedMeaning")!!)
         }
         viewModel.title.observe(viewLifecycleOwner) {
             toolbarLayout.title = it
