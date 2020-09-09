@@ -7,6 +7,7 @@ Demo translator app using SkyEng API
 - Build with Android Studio 4.0.1 and higher
 
 ## Technologies
+- Multi-Module Application
 - Android Architecture Components
   - Hilt (Dependency Injector by Google based on Dagger 2)
   - Pager (Downloading data by chunks)
