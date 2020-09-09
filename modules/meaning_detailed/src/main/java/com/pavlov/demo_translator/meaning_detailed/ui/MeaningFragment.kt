@@ -10,26 +10,28 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.pavlov.demo_translator.common.Navigator
 import com.pavlov.demo_translator.meaning_common.ui.adapter.MeaningAdapter
-import com.pavlov.demo_translator.meaning_common.ui.model.SelectedMeaningModel
 import com.pavlov.demo_translator.meaning_detailed.R
 import com.pavlov.demo_translator.meaning_detailed.databinding.FragmentMeaningBinding
 import com.pavlov.demo_translator.meaning_detailed.ui.adapter.ExampleAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MeaningFragment : DialogFragment() {
 
     companion object {
-        fun newInstance(selectedMeaning: SelectedMeaningModel) = MeaningFragment().apply {
+        fun newInstance(selectedMeaning: Navigator.MeaningScreen.Args) = MeaningFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(MeaningViewModel.SELECTED_MEANING_TAG, selectedMeaning)
             }
         }
     }
 
-    private lateinit var binding: FragmentMeaningBinding
+    @Inject lateinit var meaningScreenNavigator: Navigator.MeaningScreen
     private val viewModel: MeaningViewModel by viewModels()
+    private lateinit var binding: FragmentMeaningBinding
     private val otherMeaningsAdapter = MeaningAdapter {
         viewModel.otherMeaningClicked(it)
     }
@@ -121,9 +123,6 @@ class MeaningFragment : DialogFragment() {
         viewModel.snackbarEvent.observe(viewLifecycleOwner) {
             Snackbar.make(binding.coordinatorLayout, it, Snackbar.LENGTH_LONG).show()
         }
-        viewModel.openMeaningScreenEvent.observe(viewLifecycleOwner){
-            newInstance(it).show(childFragmentManager, "MeaningFragment$it")
-        }
         viewModel.otherMeanings.observe(viewLifecycleOwner){
             otherMeaningsAdapter.submitList(it)
         }
@@ -140,6 +139,9 @@ class MeaningFragment : DialogFragment() {
             binding.loadingLayout.loadingLayoutButton.isVisible = it.isRetryButtonVisible
             binding.loadingLayout.loadingLayoutButton.text = it.retryButton
             binding.loadingLayout.loadingLayout.isVisible = it.isLoadingLayoutVisible
+        }
+        viewModel.navigateToMeaningScreen.observe(viewLifecycleOwner) {
+            meaningScreenNavigator.navigate(it)
         }
     }
 }

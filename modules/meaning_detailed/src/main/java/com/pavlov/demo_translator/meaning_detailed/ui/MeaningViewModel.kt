@@ -3,10 +3,11 @@ package com.pavlov.demo_translator.meaning_detailed.ui
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.pavlov.demo_translator.common.Navigator
 import com.pavlov.demo_translator.common.SingleLiveEvent
 import com.pavlov.demo_translator.common.SoundInteractor
 import com.pavlov.demo_translator.meaning_common.ui.model.MeaningModel
-import com.pavlov.demo_translator.meaning_common.ui.model.SelectedMeaningModel
+import com.pavlov.demo_translator.meaning_common.ui.model.toMeaningScreenArgs
 import com.pavlov.demo_translator.meaning_detailed.repository.MeaningApi
 import com.pavlov.demo_translator.meaning_detailed.repository.dto.Definition
 import com.pavlov.demo_translator.meaning_detailed.repository.dto.MeaningFull
@@ -21,14 +22,18 @@ class MeaningViewModel @ViewModelInject constructor(
     @Assisted savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private var selectedMeaning = savedStateHandle.get<SelectedMeaningModel>(SELECTED_MEANING_TAG)!!
+    private val selectedMeaning = savedStateHandle.get<Navigator.MeaningScreen.Args>(SELECTED_MEANING_TAG)!!
+    private val isPreloaded =  !selectedMeaning.imageUrl.isNullOrBlank() &&
+        !selectedMeaning.soundUrl.isNullOrBlank() &&
+        !selectedMeaning.transcription.isNullOrBlank()
+    private var soundUrl = selectedMeaning.soundUrl
     private var meaning: MeaningFull? = null
 
-    val title = MutableLiveData<String>()
+    val title = MutableLiveData(selectedMeaning.word)
     val word by ::title
-    val image = MutableLiveData<String>()
-    val translation = MutableLiveData<String>()
-    val transcription = MutableLiveData<String>()
+    val image = MutableLiveData(selectedMeaning.imageUrl)
+    val translation = MutableLiveData(selectedMeaning.translation)
+    val transcription = MutableLiveData(selectedMeaning.transcription)
     val definition = MutableLiveData<String>()
     val definitionVisible = definition.map { !it.isNullOrEmpty() }
     val otherMeanings = MutableLiveData<List<MeaningModel>>(emptyList())
@@ -36,27 +41,21 @@ class MeaningViewModel @ViewModelInject constructor(
     val examples = MutableLiveData<List<Definition>>(emptyList())
     val closeEvent = SingleLiveEvent<Any?>()
     val snackbarEvent = SingleLiveEvent<String>()
-    val openMeaningScreenEvent = SingleLiveEvent<SelectedMeaningModel>()
     val loading = MutableLiveData<Loading>()
+    val navigateToMeaningScreen = SingleLiveEvent<Navigator.MeaningScreen.Args>()
 
     init {
-        selectedMeaning.initialMeaningData?.let {
-            title.value = it.word
-            image.value = it.imageUrl
-            transcription.value = "/ ${it.transcription} /"
-            translation.value = it.translation
-        }
         load()
     }
 
     private fun load() {
         viewModelScope.launch {
             try {
-                if (selectedMeaning.initialMeaningData == null) {
+                if (!isPreloaded) {
                     loading.value = Loading(true, "Loading...", null)
                 }
 
-                val response = api.meanings(selectedMeaning.selectedMeaningId)
+                val response = api.meanings(selectedMeaning.id)
 
                 loading.value = Loading(false, null, null)
 
@@ -75,9 +74,10 @@ class MeaningViewModel @ViewModelInject constructor(
                 transcription.value = "/ ${meaningFull.transcription} /"
                 translation.value = meaningFull.translation?.text
                 definition.value = meaningFull.definition?.text
+                soundUrl = meaningFull.correctSoundUrl
 
                 meaningFull.meaningsWithSimilarTranslation?.let {
-                    otherMeanings.value = it.filter { t -> t.meaningId != selectedMeaning.selectedMeaningId }
+                    otherMeanings.value = it.filter { t -> t.meaningId != selectedMeaning.id }
                         .map { t -> t.toModel(meaningFull.text ?: "") }
                 }
                 meaningFull.examples?.let { examples.value = it }
@@ -87,10 +87,10 @@ class MeaningViewModel @ViewModelInject constructor(
         }
     }
 
-    fun playButtonClicked() = meaning?.correctSoundUrl?.apply { soundInteractor.playSound(this) }
+    fun playButtonClicked() = soundUrl?.apply { soundInteractor.playSound(this) }
     fun closeButtonClicked() = closeEvent.call()
-    fun otherMeaningClicked(selectedMeaning: SelectedMeaningModel) {
-        openMeaningScreenEvent.value = selectedMeaning.copy(initialMeaningData = null)
+    fun otherMeaningClicked(selectedMeaning: MeaningModel) {
+        navigateToMeaningScreen.value = selectedMeaning.toMeaningScreenArgs()
     }
     fun retryButtonClicked() = load()
     fun playExampleClicked(soundUrl: String) = soundInteractor.playSound(soundUrl)

@@ -9,7 +9,6 @@ import com.pavlov.demo_translator.meaning_common.R
 import com.pavlov.demo_translator.meaning_common.databinding.ItemMeaningBinding
 import com.pavlov.demo_translator.meaning_common.ui.model.MeaningClickListener
 import com.pavlov.demo_translator.meaning_common.ui.model.MeaningModel
-import com.pavlov.demo_translator.meaning_common.ui.model.SelectedMeaningModel
 
 class MeaningViewHolder(
     parent: ViewGroup,
@@ -36,6 +35,6 @@ class MeaningViewHolder(
             binding.image.isVisible = true
             Glide.with(itemView).load(item.previewUrl).into(binding.image)
         }
-        itemView.setOnClickListener { meaningClickListener(SelectedMeaningModel(item.id, item)) }
+        itemView.setOnClickListener { meaningClickListener(item) }
     }
 }

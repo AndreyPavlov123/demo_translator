@@ -1,4 +1,4 @@
-package com.pavlov.demo_translator.ui
+package com.pavlov.demo_translator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -1,8 +1,22 @@
 package com.pavlov.demo_translator.common
 
-import android.os.Bundle
-import androidx.fragment.app.FragmentManager
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 interface Navigator {
-    fun showMeaningScreen(fragmentManager: FragmentManager, arguments: Bundle, tag: String)
+    interface MeaningScreen {
+        @Parcelize
+        data class Args(
+            var id: NumericId,
+            var word: String,
+            var translation: String,
+            var previewUrl: String? = null,
+            var partOfSpeech: String? = null,
+            var imageUrl: String? = null,
+            var transcription: String? = null,
+            var soundUrl: String? = null
+        ) : Parcelable
+
+        fun navigate(args: Args)
+    }
 }

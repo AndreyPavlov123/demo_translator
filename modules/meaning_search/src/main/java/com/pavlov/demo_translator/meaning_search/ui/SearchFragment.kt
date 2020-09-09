@@ -33,9 +33,9 @@ class SearchFragment : Fragment() {
         fun newInstance() = SearchFragment()
     }
 
-    private lateinit var binding: FragmentSearchBinding
-    @Inject lateinit var navigator: Navigator
+    @Inject lateinit var meaningScreenNavigator: Navigator.MeaningScreen
     private val viewModel: SearchViewModel by viewModels()
+    private lateinit var binding: FragmentSearchBinding
     private lateinit var pagingAdapter: WordAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,12 +61,6 @@ class SearchFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.openMeaningScreenEvent.observe(viewLifecycleOwner){
-            navigator.showMeaningScreen(childFragmentManager,
-                Bundle().apply { putParcelable("selectedMeaning", it) },
-                "MeaningFragment$it")
-        }
-
         lifecycleScope.launch {
             viewModel.searchPagingFlow.collectLatest {
                 pagingAdapter.submitData(it)
@@ -86,6 +80,10 @@ class SearchFragment : Fragment() {
                 // Only react to cases where Remote REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
                 .collect { binding.searchRecyclerView.scrollToPosition(0) }
+        }
+
+        viewModel.navigateToMeaningScreen.observe(viewLifecycleOwner) {
+            meaningScreenNavigator.navigate(it)
         }
     }
 

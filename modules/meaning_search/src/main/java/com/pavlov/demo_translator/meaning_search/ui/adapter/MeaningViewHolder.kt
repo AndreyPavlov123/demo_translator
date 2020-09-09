@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.pavlov.demo_translator.meaning_common.databinding.ItemMeaningBinding
 import com.pavlov.demo_translator.meaning_common.ui.model.MeaningClickListener
 import com.pavlov.demo_translator.meaning_common.ui.model.MeaningModel
-import com.pavlov.demo_translator.meaning_common.ui.model.SelectedMeaningModel
 import com.pavlov.demo_translator.meaning_search.R
 
 class MeaningViewHolder(
@@ -36,6 +35,6 @@ class MeaningViewHolder(
             binding.image.isVisible = true
             Glide.with(itemView).load(item.previewUrl).into(binding.image)
         }
-        itemView.setOnClickListener { meaningClickListener(SelectedMeaningModel(item.id, item)) }
+        itemView.setOnClickListener { meaningClickListener(item) }
     }
 }

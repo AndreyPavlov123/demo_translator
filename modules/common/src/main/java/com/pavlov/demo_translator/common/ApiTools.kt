@@ -2,7 +2,7 @@ package com.pavlov.demo_translator.common
 
 typealias NumericId = Long
 
-fun String.correctUrl() = "https:$this"
+fun String.correctUrl() = if (this.startsWith("http")) this else "https:$this"
 
 fun String.decodePartOfSpeech() = when (this) {
     "n" -> "noun"
