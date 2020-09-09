@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.paging.ExperimentalPagingApi
 import com.pavlov.demo_translator.R
-import com.pavlov.demo_translator.ui.search.SearchFragment
+import com.pavlov.demo_translator.meaning_search.ui.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

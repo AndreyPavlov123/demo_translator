@@ -1,2 +1,6 @@
+include ':modules:common'
+include ':modules:meaning_common'
+include ':modules:meaning_detailed'
+include ':modules:meaning_search'
 include ':app'
 rootProject.name = "demo_translator"

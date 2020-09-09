@@ -1,6 +1,6 @@
 package com.pavlov.demo_translator
 
-import com.pavlov.demo_translator.core.api.data.correctUrl
+import com.pavlov.demo_translator.common.correctUrl
 import org.junit.Test
 
 import org.junit.Assert.*
