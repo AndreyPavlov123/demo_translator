@@ -10,7 +10,6 @@ class ToolsUnitTest {
 
     @Test
     fun urlCorrection_IsCorrect() {
-        assertEquals(4, 2 + 2)
         val uri = URI.create("//d.android.com/tools/testing".correctUrl())
         assertEquals(uri.scheme, "https")
     }
