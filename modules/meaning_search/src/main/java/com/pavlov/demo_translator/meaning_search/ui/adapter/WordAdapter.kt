@@ -10,6 +10,7 @@ import com.pavlov.demo_translator.meaning_search.ui.model.toModel
 
 class WordAdapter(private val meaningClickListener: MeaningClickListener) :
     PagingDataAdapter<Word, RecyclerView.ViewHolder>(
+
         object : DiffUtil.ItemCallback<Word>() {
             override fun areItemsTheSame(
                 oldItem: Word,
@@ -19,7 +20,7 @@ class WordAdapter(private val meaningClickListener: MeaningClickListener) :
             override fun areContentsTheSame(
                 oldItem: Word,
                 newItem: Word
-            ): Boolean = oldItem.id == newItem.id
+            ): Boolean = oldItem == newItem
         }) {
 
     override fun onCreateViewHolder(
@@ -32,7 +33,7 @@ class WordAdapter(private val meaningClickListener: MeaningClickListener) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
-        if(item == null) {
+        if (item == null) {
             //holder.bindPlaceholder()
         } else {
             if (holder is WordViewHolder) {
@@ -47,11 +48,10 @@ class WordAdapter(private val meaningClickListener: MeaningClickListener) :
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
         return when {
-            item?.meanings == null || item.meanings!!.size == 1 -> 1
+            item?.meanings == null || item.meanings.size == 1 -> 1
             else -> 0
         }
     }
-
 }
 
 

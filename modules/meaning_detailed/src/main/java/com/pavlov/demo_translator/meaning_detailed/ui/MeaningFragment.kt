@@ -29,7 +29,8 @@ class MeaningFragment : DialogFragment() {
         }
     }
 
-    @Inject lateinit var meaningScreenNavigator: Navigator.MeaningScreen
+    @Inject
+    lateinit var meaningScreenNavigator: Navigator.MeaningScreen
     private val viewModel: MeaningViewModel by viewModels()
     private lateinit var binding: FragmentMeaningBinding
     private val otherMeaningsAdapter = MeaningAdapter {
@@ -123,16 +124,16 @@ class MeaningFragment : DialogFragment() {
         viewModel.snackbarEvent.observe(viewLifecycleOwner) {
             Snackbar.make(binding.coordinatorLayout, it, Snackbar.LENGTH_LONG).show()
         }
-        viewModel.otherMeanings.observe(viewLifecycleOwner){
+        viewModel.otherMeanings.observe(viewLifecycleOwner) {
             otherMeaningsAdapter.submitList(it)
         }
         viewModel.otherMeaningTitleVisible.observe(viewLifecycleOwner) {
             binding.scrollView.otherTranslationsLabel.isVisible = it
         }
-        viewModel.examples.observe(viewLifecycleOwner){
+        viewModel.examples.observe(viewLifecycleOwner) {
             exampleAdapter.submitList(it)
         }
-        viewModel.loading.observe(viewLifecycleOwner){
+        viewModel.loading.observe(viewLifecycleOwner) {
             binding.loadingLayout.loadingLayoutProgressBar.isVisible = it.isLoading
             binding.loadingLayout.loadingLayoutText.isVisible = it.isMessageVisible
             binding.loadingLayout.loadingLayoutText.text = it.message

@@ -18,8 +18,8 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 @ExperimentalPagingApi
 class SearchViewModel @ViewModelInject constructor(
-    private val searchInteractor: SearchInteractor)
-    : ViewModel() {
+    private val searchInteractor: SearchInteractor
+) : ViewModel() {
 
     val searchPagingFlow = searchInteractor.searchResultFlow.cachedIn(viewModelScope)
     val navigateToMeaningScreen = SingleLiveEvent<Navigator.MeaningScreen.Args>()

@@ -1,5 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pavlov.demo_translator.meaning_detailed">
-
-    /
-</manifest>
+<manifest package="com.pavlov.demo_translator.meaning_detailed" />

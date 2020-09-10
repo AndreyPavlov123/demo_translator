@@ -12,8 +12,8 @@ import com.pavlov.demo_translator.meaning_search.R
 
 class MeaningViewHolder(
     parent: ViewGroup,
-    private val showOnlyMeaning: Boolean)
-    : RecyclerView.ViewHolder(
+    private val showOnlyMeaning: Boolean
+) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_meaning, parent, false)
 ) {
     private val binding = ItemMeaningBinding.bind(itemView)

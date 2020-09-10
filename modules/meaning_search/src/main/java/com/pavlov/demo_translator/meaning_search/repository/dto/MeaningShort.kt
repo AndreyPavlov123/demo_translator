@@ -4,7 +4,7 @@ import com.pavlov.demo_translator.common.NumericId
 import com.pavlov.demo_translator.common.correctUrl
 import com.pavlov.demo_translator.common.decodePartOfSpeech
 
-data class MeaningShort (
+data class MeaningShort(
     val id: NumericId,
     val partOfSpeechCode: String? = null,
     val translation: Translation? = null,

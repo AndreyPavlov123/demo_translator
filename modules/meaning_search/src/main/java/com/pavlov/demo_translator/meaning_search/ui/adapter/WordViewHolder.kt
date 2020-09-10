@@ -11,8 +11,10 @@ import com.pavlov.demo_translator.meaning_search.databinding.ItemWordBinding
 import com.pavlov.demo_translator.meaning_search.repository.dto.Word
 import com.pavlov.demo_translator.meaning_search.ui.model.toModel
 
-class WordViewHolder(parent: ViewGroup, meaningClickListener: MeaningClickListener) : RecyclerView.ViewHolder(
-    LayoutInflater.from(parent.context).inflate(R.layout.item_word, parent, false)) {
+class WordViewHolder(parent: ViewGroup, meaningClickListener: MeaningClickListener) :
+    RecyclerView.ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_word, parent, false)
+    ) {
 
     private val binding = ItemWordBinding.bind(itemView)
     private val expandAdapter = MeaningAdapter(meaningClickListener)
@@ -25,7 +27,7 @@ class WordViewHolder(parent: ViewGroup, meaningClickListener: MeaningClickListen
         binding.text.text = item.text
         binding.meaning.text = item.meanings?.take(10)?.map { it.translation?.text }?.joinToString()
         binding.image.setImageResource(item.meanings!!.size.getFilterImageId())
-        expandAdapter.submitList(item.meanings!!.map { it.toModel(item.text ?: "") })
+        expandAdapter.submitList(item.meanings.map { it.toModel(item.text ?: "") })
 
         fun applyExpand() {
             if (item.isViewExpanded) {

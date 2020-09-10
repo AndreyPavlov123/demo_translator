@@ -4,7 +4,7 @@ import com.pavlov.demo_translator.common.NumericId
 import com.pavlov.demo_translator.common.correctUrl
 import com.pavlov.demo_translator.common.decodePartOfSpeech
 
-data class MeaningFull (
+data class MeaningFull(
     val id: String,
     val wordId: NumericId,
     val difficultyLevel: Int? = null,

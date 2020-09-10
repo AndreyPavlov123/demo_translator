@@ -33,7 +33,8 @@ class SearchFragment : Fragment() {
         fun newInstance() = SearchFragment()
     }
 
-    @Inject lateinit var meaningScreenNavigator: Navigator.MeaningScreen
+    @Inject
+    lateinit var meaningScreenNavigator: Navigator.MeaningScreen
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var binding: FragmentSearchBinding
     private lateinit var pagingAdapter: WordAdapter
@@ -47,8 +48,10 @@ class SearchFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         binding.searchRecyclerView.adapter = pagingAdapter.withLoadStateHeaderAndFooter(
             header = NetworkLoadStateAdapter(pagingAdapter),

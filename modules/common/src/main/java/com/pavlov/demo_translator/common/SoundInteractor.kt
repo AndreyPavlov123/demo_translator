@@ -5,12 +5,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SoundInteractor @Inject constructor()  {
+class SoundInteractor @Inject constructor() {
 
     @Suppress("BlockingMethodInNonBlockingContext")
     fun playSound(soundUrl: String) {
         GlobalScope.launch {
-            MediaPlayer().apply  {
+            MediaPlayer().apply {
                 setDataSource(soundUrl)
                 prepare() // might take long! (for buffering, etc)
                 start()

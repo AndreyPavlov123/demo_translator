@@ -22,10 +22,11 @@ class MeaningViewModel @ViewModelInject constructor(
     @Assisted savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val selectedMeaning = savedStateHandle.get<Navigator.MeaningScreen.Args>(SELECTED_MEANING_TAG)!!
-    private val isPreloaded =  !selectedMeaning.imageUrl.isNullOrBlank() &&
-        !selectedMeaning.soundUrl.isNullOrBlank() &&
-        !selectedMeaning.transcription.isNullOrBlank()
+    private val selectedMeaning =
+        savedStateHandle.get<Navigator.MeaningScreen.Args>(SELECTED_MEANING_TAG)!!
+    private val isPreloaded = !selectedMeaning.imageUrl.isNullOrBlank() &&
+            !selectedMeaning.soundUrl.isNullOrBlank() &&
+            !selectedMeaning.transcription.isNullOrBlank()
     private var soundUrl = selectedMeaning.soundUrl
     private var meaning: MeaningFull? = null
 
@@ -63,8 +64,7 @@ class MeaningViewModel @ViewModelInject constructor(
                 meaning = meaningFull
                 if (!meaningFull.prefix.isNullOrBlank()) {
                     title.value = "${meaningFull.prefix} ${meaningFull.text}"
-                }
-                else {
+                } else {
                     title.value = meaningFull.text
                 }
                 if (image.value.isNullOrBlank()) {
@@ -82,7 +82,8 @@ class MeaningViewModel @ViewModelInject constructor(
                 }
                 meaningFull.examples?.let { examples.value = it }
             } catch (exception: Exception) {
-                loading.value = Loading(false, "Error while loading a detailed info of the meaning", "Retry")
+                loading.value =
+                    Loading(false, "Error while loading a detailed info of the meaning", "Retry")
             }
         }
     }
@@ -92,6 +93,7 @@ class MeaningViewModel @ViewModelInject constructor(
     fun otherMeaningClicked(selectedMeaning: MeaningModel) {
         navigateToMeaningScreen.value = selectedMeaning.toMeaningScreenArgs()
     }
+
     fun retryButtonClicked() = load()
     fun playExampleClicked(soundUrl: String) = soundInteractor.playSound(soundUrl)
 

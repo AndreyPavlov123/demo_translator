@@ -9,10 +9,10 @@ import com.pavlov.demo_translator.meaning_detailed.databinding.ItemExampleBindin
 import com.pavlov.demo_translator.meaning_detailed.repository.dto.Definition
 import com.pavlov.demo_translator.meaning_detailed.repository.dto.correctSoundUrl
 
-class ExampleViewHolder(parent: ViewGroup, private val playSoundClickListener: (String) -> Unit)
-    : RecyclerView.ViewHolder(
-    LayoutInflater.from(parent.context).inflate(R.layout.item_example, parent, false)
-) {
+class ExampleViewHolder(parent: ViewGroup, private val playSoundClickListener: (String) -> Unit) :
+    RecyclerView.ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_example, parent, false)
+    ) {
     private val binding = ItemExampleBinding.bind(itemView)
 
     fun bind(item: Definition) {

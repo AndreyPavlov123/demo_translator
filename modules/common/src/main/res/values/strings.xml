@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name">Demo Translator</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
-    <string name="action_settings">Settings</string>
     <string name="retry">Retry</string>
     <string name="other_translations">Other translations</string>
     <string name="expand_collapse_button">Expand/Collapse Button</string>
     <string name="image">Image</string>
     <string name="play_sound_button">Play Sound Button</string>
     <string name="loading">Loading…</string>
+    <string name="search">Search</string>
 </resources>

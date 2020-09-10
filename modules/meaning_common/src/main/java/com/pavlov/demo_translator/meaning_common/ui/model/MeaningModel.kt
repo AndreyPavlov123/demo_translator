@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 typealias MeaningClickListener = (selectedMeaning: MeaningModel) -> Unit
 
 @Parcelize
-data class MeaningModel (
+data class MeaningModel(
     val id: NumericId,
     val word: String,
     val translation: String,

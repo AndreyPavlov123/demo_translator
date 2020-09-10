@@ -6,21 +6,21 @@ import androidx.recyclerview.widget.ListAdapter
 import com.pavlov.demo_translator.meaning_common.ui.model.MeaningClickListener
 import com.pavlov.demo_translator.meaning_common.ui.model.MeaningModel
 
-class MeaningAdapter(private val meaningClickListener: MeaningClickListener)
-    : ListAdapter<MeaningModel, MeaningViewHolder>(
-    object : DiffUtil.ItemCallback<MeaningModel>() {
-        override fun areItemsTheSame(
-            oldItem: MeaningModel,
-            newItem: MeaningModel
-        ): Boolean = oldItem.id == newItem.id
+class MeaningAdapter(private val meaningClickListener: MeaningClickListener) :
+    ListAdapter<MeaningModel, MeaningViewHolder>(
 
-        override fun areContentsTheSame(
-            oldItem: MeaningModel,
-            newItem: MeaningModel
-        ): Boolean = oldItem.id == newItem.id
-    }
-) {
+        object : DiffUtil.ItemCallback<MeaningModel>() {
+            override fun areItemsTheSame(
+                oldItem: MeaningModel,
+                newItem: MeaningModel
+            ): Boolean = oldItem.id == newItem.id
 
+            override fun areContentsTheSame(
+                oldItem: MeaningModel,
+                newItem: MeaningModel
+            ): Boolean = oldItem == newItem
+        }
+    ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeaningViewHolder =
         MeaningViewHolder(parent, showOnlyMeaning = true)
 

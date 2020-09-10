@@ -13,9 +13,8 @@ class MeaningScreenNavigatorImpl @Inject constructor(
     private val fragment: Fragment
 ) : Navigator.MeaningScreen {
 
-    override fun navigate(args: Navigator.MeaningScreen.Args) {
-        MeaningFragment.newInstance(args).show(fragment.childFragmentManager, "MeaningScreen${args.id}")
-    }
+    override fun navigate(args: Navigator.MeaningScreen.Args) = MeaningFragment.newInstance(args)
+        .show(fragment.childFragmentManager, "MeaningScreen${args.id}")
 }
 
 @Module

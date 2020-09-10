@@ -4,7 +4,9 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 interface Navigator {
+
     interface MeaningScreen {
+
         @Parcelize
         data class Args(
             val id: NumericId,
