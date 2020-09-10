@@ -7,14 +7,14 @@ interface Navigator {
     interface MeaningScreen {
         @Parcelize
         data class Args(
-            var id: NumericId,
-            var word: String,
-            var translation: String,
-            var previewUrl: String? = null,
-            var partOfSpeech: String? = null,
-            var imageUrl: String? = null,
-            var transcription: String? = null,
-            var soundUrl: String? = null
+            val id: NumericId,
+            val word: String,
+            val translation: String,
+            val previewUrl: String? = null,
+            val partOfSpeech: String? = null,
+            val imageUrl: String? = null,
+            val transcription: String? = null,
+            val soundUrl: String? = null
         ) : Parcelable
 
         fun navigate(args: Args)

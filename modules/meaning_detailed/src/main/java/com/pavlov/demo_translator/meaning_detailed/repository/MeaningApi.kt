@@ -1,6 +1,7 @@
 package com.pavlov.demo_translator.meaning_detailed.repository
 
 import com.google.gson.GsonBuilder
+import com.pavlov.demo_translator.common.Config
 import com.pavlov.demo_translator.common.NumericId
 import com.pavlov.demo_translator.meaning_detailed.repository.dto.MeaningFull
 import dagger.Module
@@ -27,7 +28,7 @@ object MeaningApiModule {
     @Provides
     fun provideMeaningApi(): MeaningApi {
         return Retrofit.Builder()
-            .baseUrl("https://dictionary.skyeng.ru")
+            .baseUrl(Config.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
             .create(MeaningApi::class.java)

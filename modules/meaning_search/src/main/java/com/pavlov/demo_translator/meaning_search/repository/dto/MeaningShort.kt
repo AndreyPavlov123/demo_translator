@@ -5,13 +5,13 @@ import com.pavlov.demo_translator.common.correctUrl
 import com.pavlov.demo_translator.common.decodePartOfSpeech
 
 data class MeaningShort (
-    var id: NumericId,
-    var partOfSpeechCode: String? = null,
-    var translation: Translation? = null,
-    var previewUrl: String? = null,
-    var imageUrl: String? = null,
-    var transcription: String? = null,
-    var soundUrl: String? = null
+    val id: NumericId,
+    val partOfSpeechCode: String? = null,
+    val translation: Translation? = null,
+    val previewUrl: String? = null,
+    val imageUrl: String? = null,
+    val transcription: String? = null,
+    val soundUrl: String? = null
 )
 
 val MeaningShort.correctPreviewUrl get() = this.previewUrl?.correctUrl()

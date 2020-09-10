@@ -5,23 +5,23 @@ import com.pavlov.demo_translator.common.correctUrl
 import com.pavlov.demo_translator.common.decodePartOfSpeech
 
 data class MeaningFull (
-    var id: String,
-    var wordId: NumericId,
-    var difficultyLevel: Int? = null,
-    var partOfSpeechCode: String? = null,
-    var prefix: String? = null,
-    var text: String? = null,
-    var soundUrl: String? = null,
-    var transcription: String? = null,
-    var properties: Map<String, Any?>? = null,
-    var updatedAt: String? = null,
-    var mnemonics: String? = null,
-    var translation: Translation? = null,
-    var images: List<Image>? = null,
-    var definition: Definition? = null,
-    var examples: List<Definition>? = null,
-    var meaningsWithSimilarTranslation: List<MeaningsWithSimilarTranslation>? = null,
-    var alternativeTranslations: List<AlternativeTranslation>? = null
+    val id: String,
+    val wordId: NumericId,
+    val difficultyLevel: Int? = null,
+    val partOfSpeechCode: String? = null,
+    val prefix: String? = null,
+    val text: String? = null,
+    val soundUrl: String? = null,
+    val transcription: String? = null,
+    val properties: Map<String, Any?>? = null,
+    val updatedAt: String? = null,
+    val mnemonics: String? = null,
+    val translation: Translation? = null,
+    val images: List<Image>? = null,
+    val definition: Definition? = null,
+    val examples: List<Definition>? = null,
+    val meaningsWithSimilarTranslation: List<MeaningsWithSimilarTranslation>? = null,
+    val alternativeTranslations: List<AlternativeTranslation>? = null
 )
 
 val MeaningFull.correctSoundUrl get() = this.soundUrl?.correctUrl()
