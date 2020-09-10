@@ -1,9 +1,8 @@
 package com.pavlov.demo_translator.meaning_detailed.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
@@ -17,6 +16,8 @@ import com.pavlov.demo_translator.meaning_detailed.databinding.FragmentMeaningBi
 import com.pavlov.demo_translator.meaning_detailed.ui.adapter.ExampleAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.math.min
+
 
 @AndroidEntryPoint
 class MeaningFragment : DialogFragment() {
@@ -143,6 +144,36 @@ class MeaningFragment : DialogFragment() {
         }
         viewModel.navigateToMeaningScreen.observe(viewLifecycleOwner) {
             meaningScreenNavigator.navigate(it)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setDialogSize()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        setDialogSize()
+    }
+
+    // Workaround to make DialogWhenLarge theme work properly on tablets
+    private fun setDialogSize() {
+        dialog?.let {
+            val windowWidth = it.window?.attributes?.width
+            if (windowWidth == ViewGroup.LayoutParams.MATCH_PARENT)
+                return
+            val screenWidth = resources.displayMetrics.widthPixels
+            val screenHeight = resources.displayMetrics.heightPixels
+            val screenMinSize = min(screenWidth, screenHeight)
+            val newWindowWidth = screenMinSize * 75 / 100
+            val newWindowHeight = screenHeight * 90 / 100
+            val newWindowLayoutParams = WindowManager.LayoutParams().apply {
+                copyFrom(it.window?.attributes)
+                width = newWindowWidth
+                height = newWindowHeight
+            }
+            it.window?.attributes = newWindowLayoutParams
         }
     }
 }
