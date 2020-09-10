@@ -3,6 +3,8 @@ buildscript {
 
     ext {
 
+        releaseMinifyEnabled = true
+
         // sdk and tools:
         //
         compileSdkVersion = 30
